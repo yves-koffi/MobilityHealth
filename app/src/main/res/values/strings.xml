@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Mobility health</string>
+    <string name="home">Home</string>
+    <string name="travel">Travel</string>
+    <string name="category">Category</string>
+    <string name="help">Help</string>
+</resources>
