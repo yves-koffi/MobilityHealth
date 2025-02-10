@@ -18,10 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import fr.yjk.mobility.health.ui.theme.MobilityHealthTheme
 
 @Composable
@@ -35,12 +38,16 @@ fun OTPForm(otpLength: Int = 6, onOtpSubmit: (String) -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             for (i in 0 until otpLength) {
                 TextField(
-                    textStyle = MaterialTheme.typography.titleMedium,
+
+                    textStyle = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
+                    ),
                     colors = TextFieldDefaults.colors(
                         unfocusedContainerColor = MaterialTheme.colorScheme.surface,
                         focusedContainerColor = MaterialTheme.colorScheme.surface
@@ -63,11 +70,11 @@ fun OTPForm(otpLength: Int = 6, onOtpSubmit: (String) -> Unit) {
                                 }
                             }
                         } else {
-                            // optionally provide feedback to user if invalid input
+                            //
                         }
                     },
                     modifier = Modifier
-                        .width(50.dp)
+                        .width(48.dp)
                         .focusRequester(focusRequesters[i]),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,
