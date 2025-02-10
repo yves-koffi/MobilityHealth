@@ -1,51 +1,63 @@
 package fr.yjk.mobility.health.ui.screens.login
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fr.yjk.mobility.health.R
+import fr.yjk.mobility.health.ui.components.CustomButton
+import fr.yjk.mobility.health.ui.components.CustomTextField
+import fr.yjk.mobility.health.ui.screens.login.partial.CustomTab
 import fr.yjk.mobility.health.ui.theme.MobilityHealthTheme
 import fr.yjk.mobility.health.ui.theme.handelGotDBol
 import fr.yjk.mobility.health.ui.theme.scaffoldPadding
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginRequestScreen(modifier: Modifier = Modifier) {
-    Scaffold { innerPadding ->
+fun LoginRequestScreen(onVerify: () -> Unit,onBack: () -> Unit) {
+
+    var tabIndex by remember {
+        mutableIntStateOf(0)
+    }
+
+    Scaffold(topBar = {
+        TopAppBar(navigationIcon = {
+            IconButton(onClick = {
+                onBack()
+            }) {
+                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "back")
+            }
+        }, title = {})
+    }) { innerPadding ->
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
@@ -71,60 +83,12 @@ fun LoginRequestScreen(modifier: Modifier = Modifier) {
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(12.dp))
-                        .height(56.dp)
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.outline.copy(alpha = 0.15f))
-                        .border(
-                            shape = RoundedCornerShape(12.dp),
-                            color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f),
-                            width = 1.dp
-                        )
-                        .padding(all = 6.dp)
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(8.dp))
-                            .weight(1f)
-                            .fillMaxHeight()
-                            .background(ButtonDefaults.buttonColors().containerColor)
-                    ) {
-                        Text(
-                            "Email", style = TextStyle(
-                                fontSize = 15.sp,
-                                lineHeight = 15.sp,
-                                fontFamily = handelGotDBol,
-                                fontWeight = FontWeight.W400,
-                                color = ButtonDefaults.buttonColors().contentColor
-                            )
-                        )
-                    }
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(8.dp))
-                            .weight(1f)
-                            .fillMaxHeight()
-                    ) {
-                        Text(
-                            "Numero whatsapp", style = TextStyle(
-                                fontSize = 15.sp,
-                                lineHeight = 15.sp,
-                                fontFamily = handelGotDBol,
-                                fontWeight = FontWeight.W400
-                            )
-                        )
-                    }
-                }
+                CustomTab(index = tabIndex, onChange = { index ->
+                    tabIndex = index
+                })
                 Spacer(modifier = Modifier.height(height = 24.dp))
                 Text(
-                    "Se connecter", style = TextStyle(
+                    stringResource(R.string.login), style = TextStyle(
                         fontSize = 20.sp,
                         lineHeight = 24.sp,
                         fontWeight = FontWeight.W400,
@@ -132,42 +96,20 @@ fun LoginRequestScreen(modifier: Modifier = Modifier) {
                         letterSpacing = 0.15.sp
                     )
                 )
-                Column {
-                    Text("Email")
-                    TextField(
-                        modifier = Modifier.fillMaxWidth(),
-                        value = "",
-                        placeholder = {
-                            Text("Entrer Votre email")
-                        },
-                        onValueChange = {},
-                        leadingIcon = {
-                            Icon(
-                                imageVector = Icons.Default.AccountCircle,
-                                contentDescription = "user"
-                            )
-                        },
-                        shape = RoundedCornerShape(size = 12.dp),
-                        colors = TextFieldDefaults.colors(
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent
+                CustomTextField(
+                    value = "",
+                    onValueChange = { },
+                    label = stringResource(if (tabIndex == 0) R.string.lrEmail else R.string.lrNumWhatsapp),
+                    placeholder = stringResource(if (tabIndex == 0) R.string.lrEmailHint else R.string.lrNumWhatsappHint),
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.AccountCircle,
+                            contentDescription = "user"
                         )
-                    )
-                }
-                Button(
-                    contentPadding = PaddingValues(vertical = 16.dp),
-                    shape = RoundedCornerShape(14.dp),
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {}) {
-                    Text(
-                        "Valider", style = TextStyle(
-                            fontSize = 16.sp,
-                            lineHeight = 24.sp,
-                            fontWeight = FontWeight.W400,
-                            fontFamily = handelGotDBol,
-                            letterSpacing = 0.sp
-                        )
-                    )
+                    }
+                )
+                CustomButton(text = stringResource(R.string.lrValidateBtn)) {
+                    onVerify()
                 }
             }
         }
@@ -175,10 +117,14 @@ fun LoginRequestScreen(modifier: Modifier = Modifier) {
 }
 
 
+
+
 @Preview
 @Composable
 private fun LoginRequestScreenPreview() {
     MobilityHealthTheme {
-        LoginRequestScreen()
+        LoginRequestScreen(onVerify = {}) {
+
+        }
     }
 }

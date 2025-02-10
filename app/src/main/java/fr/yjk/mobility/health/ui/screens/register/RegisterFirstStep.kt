@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.VerticalPager
@@ -22,6 +23,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.ArrowForward
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -39,8 +41,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -48,8 +53,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fr.yjk.mobility.health.R
+import fr.yjk.mobility.health.fake.Country
 import fr.yjk.mobility.health.ui.components.CustomButton
 import fr.yjk.mobility.health.ui.components.CustomTextField
+import fr.yjk.mobility.health.ui.components.SelectField
+import fr.yjk.mobility.health.ui.screens.register.partial.RegisterFirstStep
+import fr.yjk.mobility.health.ui.screens.register.partial.RegisterLastStep
 import fr.yjk.mobility.health.ui.theme.MobilityHealthTheme
 import fr.yjk.mobility.health.ui.theme.handelGotDBol
 import fr.yjk.mobility.health.ui.theme.scaffoldPadding
@@ -57,7 +66,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterStep(modifier: Modifier = Modifier) {
+fun RegisterStep(onVerify: () -> Unit,onBack: () -> Unit) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(pageCount = {
         2
@@ -65,10 +74,12 @@ fun RegisterStep(modifier: Modifier = Modifier) {
     Scaffold(topBar = {
         TopAppBar(navigationIcon = {
             IconButton(onClick = {
-                if(pagerState.currentPage == 1){
+                if (pagerState.currentPage == 1) {
                     coroutineScope.launch {
                         pagerState.animateScrollToPage(0)
                     }
+                }else{
+                    onBack()
                 }
             }) {
                 Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "back")
@@ -92,7 +103,7 @@ fun RegisterStep(modifier: Modifier = Modifier) {
                     .padding(all = scaffoldPadding),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Spacer(modifier = Modifier.height(height = 16.dp))
+                Spacer(modifier = Modifier.height(height = 8.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(space = 8.dp)) {
                     for (i in 0..1) Spacer(
                         modifier = Modifier
@@ -106,7 +117,7 @@ fun RegisterStep(modifier: Modifier = Modifier) {
                             )
                     )
                 }
-                Spacer(modifier = Modifier.height(height = 32.dp))
+                Spacer(modifier = Modifier.height(height = 24.dp))
                 Text(
                     text = "Inscription", style = TextStyle(
                         fontSize = 20.sp,
@@ -131,9 +142,9 @@ fun RegisterStep(modifier: Modifier = Modifier) {
                     verticalAlignment = Alignment.Top,
                     state = pagerState
                 ) { page ->
-                    if(page == 0){
+                    if (page == 0) {
                         RegisterFirstStep()
-                    }else{
+                    } else {
                         RegisterLastStep()
                     }
 
@@ -149,10 +160,17 @@ fun RegisterStep(modifier: Modifier = Modifier) {
                     modifier = Modifier.padding(vertical = 16.dp)
                 )
 
-                CustomButton(text = "Suivant", icon = Icons.AutoMirrored.Outlined.ArrowForward) {
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(1)
+                CustomButton(text = "Suivant", icon = {
+                    Icon(painter = painterResource(R.drawable.next), contentDescription = null)
+                }) {
+                    if (pagerState.currentPage == 1) {
+                        onVerify()
+                    } else {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(1)
+                        }
                     }
+
                 }
                 Spacer(modifier = Modifier.height(height = 8.dp))
             }
@@ -160,106 +178,15 @@ fun RegisterStep(modifier: Modifier = Modifier) {
     }
 }
 
-@Composable
-fun RegisterFirstStep() {
-    Column(verticalArrangement = Arrangement.spacedBy(space = 14.dp)) {
-        CustomTextField(value = "",
-            onValueChange = { },
-            label = "Sélectionner Votre pays de Résidence habituel",
-            placeholder = "Pays de Résidence",
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.AccountCircle,
-                    contentDescription = null
-                )
-            })
-        CustomTextField(value = "",
-            onValueChange = { },
-            label = "Nationalité",
-            placeholder = "Entrez votre Nationalité",
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.AccountCircle,
-                    contentDescription = null
-                )
-            })
-        CustomTextField(value = "",
-            onValueChange = { },
-            label = "Nom",
-            placeholder = "Entrer Votre Nom",
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.AccountCircle,
-                    contentDescription = null
-                )
-            })
-        CustomTextField(value = "",
-            onValueChange = { },
-            label = "Prénoms",
-            placeholder = "Entrer Votre Prénom",
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.AccountCircle,
-                    contentDescription = null
-                )
-            })
-    }
-}
 
-@Composable
-fun RegisterLastStep() {
-    Column(verticalArrangement = Arrangement.spacedBy(space = 14.dp)) {
-        CustomTextField(value = "",
-            onValueChange = { },
-            label = "Date de Naissance",
-            placeholder = "Entrer Votre date de naissance",
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.AccountCircle,
-                    contentDescription = null
-                )
-            })
-
-        CustomTextField(value = "",
-            onValueChange = { },
-            label = "Numéro de téléphone principal",
-            placeholder = "Entrer Votre Numéro de téléphone",
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.AccountCircle,
-                    contentDescription = null
-                )
-            })
-
-        CustomTextField(value = "",
-            onValueChange = { },
-            label = "Numéro Whatsapp",
-            placeholder = "Entrer Votre Numéro Whatsapp",
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.AccountCircle,
-                    contentDescription = null
-                )
-            })
-
-        CustomTextField(value = "",
-            onValueChange = { },
-            label = "Email",
-            placeholder = "Placeholder",
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.AccountCircle,
-                    contentDescription = null
-                )
-            })
-    }
-}
 
 
 @Preview
 @Composable
 private fun RegisterFirstStepPreview() {
     MobilityHealthTheme {
-        RegisterStep()
+        RegisterStep(onVerify = {}) {
+
+        }
     }
 }

@@ -1,6 +1,8 @@
 package fr.yjk.mobility.health.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,15 +24,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import fr.yjk.mobility.health.R
+import fr.yjk.mobility.health.ui.components.CustomButton
+import fr.yjk.mobility.health.ui.components.CustomOutlineButton
 import fr.yjk.mobility.health.ui.theme.MobilityHealthTheme
+import fr.yjk.mobility.health.ui.theme.handelGotDBol
 
 @Composable
-fun BeforeAuthScreen(modifier: Modifier = Modifier) {
+fun BeforeAuthScreen(onLogin:()->Unit,onRegister:()->Unit) {
+    BackHandler {
+
+    }
     Scaffold { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
             Column(
@@ -44,7 +55,7 @@ fun BeforeAuthScreen(modifier: Modifier = Modifier) {
                     painter = painterResource(R.drawable.lgoo2),
                     contentDescription = "logo"
                 )
-                Box(modifier = modifier.weight(weight = 1f)) {
+                Box(modifier = Modifier.weight(weight = 1f)) {
                     Image(
                         modifier = Modifier.fillMaxSize(),
                         painter = painterResource(R.drawable.before),
@@ -53,33 +64,32 @@ fun BeforeAuthScreen(modifier: Modifier = Modifier) {
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
-                        "Votre Assistance voyage\n simplifiée, où que vous alliez.",
+                        stringResource(R.string.beforeAuthTitle),
                         style = MaterialTheme.typography.titleLarge.copy(
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = handelGotDBol,
                         ),
                         textAlign = TextAlign.Center
                     )
+                    Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        "Inscrivez-vous en quelques clics et bénéficiez d’une protection complète pour vos déplacements à l’étranger.",
-                        style = MaterialTheme.typography.labelSmall,
+                        stringResource(R.string.beforeAuthInfo),
+                        style = TextStyle(
+                            fontWeight = FontWeight.W400,
+                            fontSize = 13.sp,
+                            lineHeight = 16.sp,
+                            color = MaterialTheme.colorScheme.outline.copy(alpha = 0.8f)
+                        ),
                         textAlign = TextAlign.Center
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Button(
-                        contentPadding = PaddingValues(vertical = 16.dp),
-                        shape = RoundedCornerShape(8.dp),
-                        modifier = Modifier.fillMaxWidth(),
-                        onClick = {}) {
-                        Text("Se connecter", style = MaterialTheme.typography.titleMedium,)
-                    }
-                    Spacer(modifier = Modifier.height(16.dp))
-                    OutlinedButton(
-                        contentPadding = PaddingValues(vertical = 16.dp),
-                        shape = RoundedCornerShape(14.dp),
-                        modifier = Modifier.fillMaxWidth(),
-                        onClick = {}) {
-                        Text("S’inscrire", style = MaterialTheme.typography.titleMedium)
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                        CustomButton(text = stringResource(R.string.login)) {
+                            onLogin()
+                        }
+                        CustomOutlineButton(text = stringResource(R.string.register)) {
+                            onRegister()
+                        }
                     }
                 }
 
@@ -93,6 +103,6 @@ fun BeforeAuthScreen(modifier: Modifier = Modifier) {
 @Composable
 private fun BeforeAuthScreenPreview() {
     MobilityHealthTheme {
-        BeforeAuthScreen()
+        BeforeAuthScreen(onLogin = {}, onRegister = {})
     }
 }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -16,9 +17,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.yjk.mobility.health.R
 import fr.yjk.mobility.health.ui.theme.MobilityHealthTheme
+import kotlinx.coroutines.delay
 
 @Composable
-fun LaunchScreen(modifier: Modifier = Modifier) {
+fun LaunchScreen(onNext:()->Unit) {
+
+    LaunchedEffect(Unit) {
+        delay(1000)
+        onNext()
+    }
+
+
     Scaffold { innerPadding ->
         Column(
             verticalArrangement = Arrangement.Center,
@@ -29,8 +38,8 @@ fun LaunchScreen(modifier: Modifier = Modifier) {
         ) {
             Image(
                 modifier = Modifier
-                    .width(width = 248.dp)
-                    .height(85.dp),
+                    .width(width = (248-24).dp)
+                    .height((85-24).dp),
                 painter = painterResource(R.drawable.lgoo2),
                 contentDescription = "logo"
             )
@@ -42,6 +51,8 @@ fun LaunchScreen(modifier: Modifier = Modifier) {
 @Composable
 private fun LaunchScreenPreview() {
     MobilityHealthTheme {
-        LaunchScreen()
+        LaunchScreen(){
+
+        }
     }
 }

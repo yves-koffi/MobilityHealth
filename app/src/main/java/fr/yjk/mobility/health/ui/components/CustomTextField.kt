@@ -37,12 +37,14 @@ fun CustomTextField(
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(space = 4.dp)) {
         Text(
-            modifier = Modifier.padding(start = 10.dp),
-            text = label, style = TextStyle(
-                fontSize = 12.sp,
+            modifier = Modifier.padding(start = 10.dp, bottom = 2.dp),
+            text = label,
+            style = TextStyle(
+                fontSize = 14.sp,
                 fontWeight = FontWeight.W400,
                 fontFamily = FontFamily.Default,
             )
+
         )
         TextField(
             leadingIcon = leadingIcon,
@@ -51,7 +53,7 @@ fun CustomTextField(
                 fontSize = 14.sp,
                 lineHeight = 24.sp,
                 fontWeight = FontWeight.W400,
-                fontFamily = FontFamily.Serif,
+                fontFamily = FontFamily.Default,
             ),
             value = value,
             onValueChange = onValueChange,

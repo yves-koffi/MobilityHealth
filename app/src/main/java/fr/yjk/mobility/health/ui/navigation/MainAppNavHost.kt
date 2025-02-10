@@ -8,6 +8,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import fr.yjk.mobility.health.ui.screens.BeforeAuthScreen
+import fr.yjk.mobility.health.ui.screens.LaunchScreen
+import fr.yjk.mobility.health.ui.screens.directory.MakeDirectory
+import fr.yjk.mobility.health.ui.screens.login.LoginOtpScreen
+import fr.yjk.mobility.health.ui.screens.login.LoginRequestScreen
+import fr.yjk.mobility.health.ui.screens.register.RegisterStep
+import fr.yjk.mobility.health.ui.screens.subscription.Subscription
+import fr.yjk.mobility.health.ui.screens.workspace.Workspace
 import kotlinx.serialization.Serializable
 
 
@@ -16,34 +25,97 @@ object Menu {
     object Launch
 
     @Serializable
-    object Read
+    object BeforeAuth
 
     @Serializable
-    object Write
+    object Login
 
 
     @Serializable
-    object AuthKey
+    object Register
+
+    @Serializable
+    data class Verify(val next: String)
+
+    @Serializable
+    object Workspace
+
+    @Serializable
+    object MakeDirectory
+
+    @Serializable
+    object Subscribe
 }
 
 @Composable
 fun MainAppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: Any = Menu.Read
+    startDestination: Any = Menu.Launch
 ) {
-
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = startDestination
     ) {
 
-        composable<Menu.Read> {
-            Greeting(name = "Setting")
+        composable<Menu.Launch> {
+            LaunchScreen(onNext = {
+                navController.navigate(Menu.BeforeAuth) {
+                    popUpTo<Menu.BeforeAuth> {
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                }
+            })
         }
-        composable<Menu.Write> {
-            Greeting(name = "Setting")
+        composable<Menu.BeforeAuth> {
+            BeforeAuthScreen(onLogin = {
+                navController.navigate(Menu.Login)
+            }, onRegister = {
+                navController.navigate(Menu.Register)
+            })
+        }
+        composable<Menu.Login> {
+            LoginRequestScreen(onVerify = {
+                navController.navigate(Menu.Verify(next = "workspace"))
+            }, onBack = navController::navigateUp)
+        }
+        composable<Menu.Verify> {
+            val next: Menu.Verify = it.toRoute()
+            LoginOtpScreen(onHome = {
+                navController.navigate(if (next.next == "workspace") Menu.Workspace else Menu.MakeDirectory) {
+                    popUpTo<Menu.Workspace> {
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                }
+            }, onBack = navController::navigateUp)
+        }
+        composable<Menu.Workspace> {
+            Workspace(onSubscribe = {
+                navController.navigate(Menu.Subscribe)
+            })
+        }
+        composable<Menu.Register> {
+            RegisterStep(onVerify = {
+                navController.navigate(Menu.Verify(next = "directory"))
+            }, onBack = navController::navigateUp)
+        }
+        composable<Menu.MakeDirectory> {
+            MakeDirectory(onSubscribe = {
+                navController.navigate(Menu.Subscribe)
+            })
+        }
+        composable<Menu.Subscribe> {
+            Subscription(onHome = {
+                navController.navigate(Menu.Workspace) {
+                    popUpTo<Menu.Workspace> {
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                }
+            })
         }
     }
 }
@@ -52,7 +124,6 @@ fun MainAppNavHost(
 fun Greeting(
     name: String
 ) {
-
 
 
     Column {

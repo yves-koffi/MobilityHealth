@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -26,6 +27,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -41,8 +44,11 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -62,9 +68,9 @@ fun <T> SelectField(
     heightFraction: Float = 0.5f,
     onChange: ((value: T) -> Unit)? = null,
     key: (value: T) -> String,
-    modelValue: (value: T) -> String,
+    modelValue: (@Composable (T) -> Unit)? = null,
     filter: ((value: T, query: String) -> Boolean)? = null,
-    modelItem: @Composable (T) -> Unit
+    modelItem: @Composable (T,T?) -> Unit
 ) {
 
     val focusRequester = remember { FocusRequester() }
@@ -78,7 +84,8 @@ fun <T> SelectField(
         mutableStateOf<String>("")
     }
     val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
+        skipPartiallyExpanded = true,
+        confirmValueChange={false}
     )
     val scope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -87,10 +94,20 @@ fun <T> SelectField(
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
+        Text(
+            modifier = Modifier.padding(start = 10.dp, bottom = 6.dp),
+            text = label,
+            style = TextStyle(
+                fontSize = 14.sp,
+                fontWeight = FontWeight.W400,
+                fontFamily = FontFamily.Default,
+            )
+
+        )
         Column(modifier = Modifier
             .focusRequester(focusRequester)
             .focusable(interactionSource = interactionSource)
-            .clip(shape = TextFieldDefaults.shape)
+            .clip(shape = RoundedCornerShape(size = 12.dp))
             .clickable(
                 enabled = enabled, indication = null, interactionSource = interactionSource
             ) {
@@ -98,56 +115,39 @@ fun <T> SelectField(
                 focusRequester.captureFocus()
             }
             .fillMaxWidth()
-            .background(color = if (enabled) TextFieldDefaults.colors().unfocusedContainerColor else TextFieldDefaults.colors().disabledContainerColor)
-            .drawBehind {
-                drawLine(
-                    start = Offset.Zero.copy(y = size.height - TextFieldDefaults.UnfocusedIndicatorThickness.toPx()),
-                    end = Offset(
-                        x = size.width,
-                        y = size.height - TextFieldDefaults.UnfocusedIndicatorThickness.toPx()
-                    ),
-                    color = bottomColor,
-                    strokeWidth = if (isFocused) TextFieldDefaults.FocusedIndicatorThickness.toPx() else TextFieldDefaults.UnfocusedIndicatorThickness.toPx()
-                )
-            }
+            .background(
+                color = if (enabled) TextFieldDefaults.colors().unfocusedContainerColor.copy(
+                    alpha = 0.4f
+                ) else TextFieldDefaults.colors().disabledContainerColor
+            )
             .padding(TextFieldDefaults.contentPaddingWithoutLabel())) {
 
-            Box {
-                Text(
-                    modifier = Modifier.offset(y = (-9).dp),
-                    text = label,
-                    style = MaterialTheme.typography.labelSmall.copy(
-                        fontWeight = FontWeight.W400,
-                        fontSize = 12.sp,
-                        color = if (enabled) (if (isFocused) TextFieldDefaults.colors().focusedLabelColor else TextFieldDefaults.colors().unfocusedLabelColor) else TextFieldDefaults.colors().disabledLabelColor
-                    )
-                )
-                Row(
-                    modifier = Modifier
-                        .offset(y = if (value != null) 5.dp else 8.dp)
-                        .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
-                ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(modifier = Modifier.weight(1f)) {
                     if (value != null) {
-                        Text(
-                            modifier = Modifier.weight(1f),
-                            text = modelValue(value),
-                            style = TextStyle(
-                                color = if (enabled) LocalContentColor.current else TextFieldDefaults.colors().disabledTextColor
-                            )
-                        )
+                        modelValue?.let {
+                            it(value)
+                        }
                     } else {
                         Text(
-                            modifier = Modifier.weight(1f), text = placeholder, style = TextStyle(
-                                color = if (enabled) TextFieldDefaults.colors().unfocusedPlaceholderColor else TextFieldDefaults.colors().disabledPlaceholderColor
+                            text = placeholder, style = TextStyle(
+                                color = if (enabled) TextFieldDefaults.colors().unfocusedPlaceholderColor else TextFieldDefaults.colors().disabledPlaceholderColor,
+                                fontSize = 16.sp,
+                                lineHeight = 24.sp,
+                                fontWeight = FontWeight.W400,
+                                fontFamily = FontFamily.Default,
                             )
                         )
                     }
-                    Icon(
-                        imageVector = Icons.Default.KeyboardArrowDown,
-                        contentDescription = "KeyboardArrowDown",
-                        tint = if (enabled) LocalContentColor.current else TextFieldDefaults.colors().disabledLabelColor
-                    )
                 }
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowDown,
+                    contentDescription = "KeyboardArrowDown",
+                    tint = if (enabled) LocalContentColor.current else TextFieldDefaults.colors().disabledLabelColor
+                )
             }
         }
         if (showBottomSheet) {
@@ -162,24 +162,52 @@ fun <T> SelectField(
                     verticalArrangement = Arrangement.spacedBy(2.dp),
                 ) {
                     if (filter != null) {
-                        Column(
-                            verticalArrangement = Arrangement.spacedBy(14.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally,
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(space = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(
-                                text = label,
-                                style = MaterialTheme.typography.titleMedium,
-                            )
-                            OutlinedTextField(
-                                value = query,
-                                placeholder = {
-                                    Text(text = stringResource(R.string.app_name))
+                            Row(modifier = Modifier.weight(weight = 1f)) {
+                                TextField(
+                                    value = query,
+                                    placeholder = {
+                                        Text(
+                                            text = "Rechercher",
+                                            color = MaterialTheme.colorScheme.outline.copy(alpha = 0.7f)
+                                        )
+                                    },
+                                    leadingIcon = {
+                                        Icon(
+                                            painter = painterResource(R.drawable.search),
+                                            contentDescription = null
+                                        )
+                                    },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    onValueChange = { qry ->
+                                        query = qry
+                                    },
+                                    shape = RoundedCornerShape(size = 12.dp),
+                                    colors = TextFieldDefaults.colors(
+                                        focusedIndicatorColor = Color.Transparent,
+                                        unfocusedIndicatorColor = Color.Transparent,
+                                        unfocusedContainerColor = TextFieldDefaults.colors().unfocusedContainerColor.copy(
+                                            alpha = 0.4f
+                                        ),
+                                        unfocusedLeadingIconColor = TextFieldDefaults.colors().unfocusedLeadingIconColor.copy(
+                                            alpha = 0.8f
+                                        )
+                                    )
+                                )
+                            }
+                            TextButton(
+                                colors = ButtonDefaults.textButtonColors().copy(
+                                    contentColor = MaterialTheme.colorScheme.secondary
+                                ),
+                                onClick = {
+                                    showBottomSheet = false
                                 },
-                                modifier = Modifier.fillMaxWidth(),
-                                onValueChange = { qry ->
-                                    query = qry
-                                },
-                            )
+                            ) {
+                                Text(text = "Annuler")
+                            }
                         }
                     }
 
@@ -213,7 +241,7 @@ fun <T> SelectField(
                                         }
                                 }
                                 .fillMaxWidth()) {
-                                modelItem(item)
+                                modelItem(item,value)
                             }
                         }
                     }

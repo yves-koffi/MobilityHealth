@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -24,9 +25,10 @@ class MainActivity : ComponentActivity() {
             // a flicker before the similar frame is drawn in Flutter.
             splashScreen.setOnExitAnimationListener { splashScreenView -> splashScreenView.remove() }
         }
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
-        enableEdgeToEdge()
+
 
         setContent {
             MobilityHealthTheme {
@@ -56,3 +58,10 @@ fun GreetingPreview() {
         Greeting("Android")
     }
 }
+
+/*
+dialog<Other>(dialogProperties = DialogProperties(dismissOnClickOutside = false)) {
+    Column {
+        Text(text = "Je suis yves koffi auth")
+    }
+}*/

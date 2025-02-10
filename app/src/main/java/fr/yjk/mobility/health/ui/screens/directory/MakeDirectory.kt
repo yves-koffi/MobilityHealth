@@ -1,7 +1,9 @@
 package fr.yjk.mobility.health.ui.screens.directory
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -20,6 +23,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.ArrowForward
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -34,8 +38,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -43,8 +50,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fr.yjk.mobility.health.R
+import fr.yjk.mobility.health.fake.Country
+import fr.yjk.mobility.health.fake.Gender
 import fr.yjk.mobility.health.ui.components.CustomButton
 import fr.yjk.mobility.health.ui.components.CustomTextField
+import fr.yjk.mobility.health.ui.components.SelectField
+import fr.yjk.mobility.health.ui.screens.directory.partial.MakeDirectoryFirstStep
+import fr.yjk.mobility.health.ui.screens.directory.partial.MakeDirectoryLastStep
 import fr.yjk.mobility.health.ui.theme.MobilityHealthTheme
 import fr.yjk.mobility.health.ui.theme.handelGotDBol
 import fr.yjk.mobility.health.ui.theme.scaffoldPadding
@@ -52,21 +64,34 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MakeDirectory(modifier: Modifier = Modifier) {
+fun MakeDirectory(onSubscribe:()->Unit) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(pageCount = {
         2
     })
+
+
+    BackHandler {
+        if (pagerState.currentPage == 1) {
+            coroutineScope.launch {
+                pagerState.animateScrollToPage(0)
+            }
+        }
+    }
+
     Scaffold(topBar = {
+
         TopAppBar(navigationIcon = {
-            IconButton(onClick = {
-                if (pagerState.currentPage == 1) {
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(0)
+            if(pagerState.currentPage>0){
+                IconButton(onClick = {
+                    if (pagerState.currentPage == 1) {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(0)
+                        }
                     }
+                }) {
+                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "back")
                 }
-            }) {
-                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "back")
             }
         }, title = {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
@@ -88,10 +113,16 @@ fun MakeDirectory(modifier: Modifier = Modifier) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    TextButton(onClick = {}, contentPadding = PaddingValues(vertical = 4.dp)) {
-                        Text(text = "Passer", color = Color.Unspecified)
-                    }
+                    Text(
+                        text = "Passer",
+                        modifier = Modifier.clickable {},
+                        style = TextStyle(
+                            fontWeight = FontWeight.W500,
+                            fontSize = 12.sp
+                        )
+                    )
                 }
+                Spacer(modifier = Modifier.height(height = 16.dp))
                 Text(
                     text = "Valider votre dossier", style = TextStyle(
                         fontSize = 20.sp,
@@ -137,10 +168,21 @@ fun MakeDirectory(modifier: Modifier = Modifier) {
                     }
 
                 }
-
-                CustomButton(text = "Suivant", icon = Icons.AutoMirrored.Outlined.ArrowForward) {
+                CustomButton(text = stringResource(if (pagerState.currentPage == 0) R.string.btnNext else R.string.lrValidateBtn),
+                    icon = {
+                        if (pagerState.currentPage == 0) {
+                            Icon(
+                                painter = painterResource(R.drawable.next),
+                                contentDescription = null
+                            )
+                        }
+                    }) {
                     coroutineScope.launch {
-                        pagerState.animateScrollToPage(1)
+                        if(pagerState.currentPage == 0){
+                            pagerState.animateScrollToPage(1)
+                        }else{
+                            onSubscribe()
+                        }
                     }
                 }
                 Spacer(modifier = Modifier.height(height = 8.dp))
@@ -149,84 +191,17 @@ fun MakeDirectory(modifier: Modifier = Modifier) {
     }
 }
 
-@Composable
-fun MakeDirectoryFirstStep() {
-    Column(verticalArrangement = Arrangement.spacedBy(space = 14.dp)) {
-        CustomTextField(value = "",
-            onValueChange = { },
-            label = "Votre civilité",
-            placeholder = "Monsieur",
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.AccountCircle,
-                    contentDescription = null
-                )
-            })
-        CustomTextField(value = "",
-            onValueChange = { },
-            label = "Ville de résidence actuelle",
-            placeholder = "Ville",
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.AccountCircle,
-                    contentDescription = null
-                )
-            })
-        CustomTextField(value = "",
-            onValueChange = { },
-            label = "Entrez votre Nationalité",
-            placeholder = "Nationalité",
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.AccountCircle,
-                    contentDescription = null
-                )
-            })
-        CustomTextField(value = "",
-            onValueChange = { },
-            label = "Question Santé",
-            placeholder = "Question santé",
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.AccountCircle,
-                    contentDescription = null
-                )
-            })
-        CustomTextField(value = "",
-            onValueChange = { },
-            label = "Question Santé",
-            placeholder = "Question santé",
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.AccountCircle,
-                    contentDescription = null
-                )
-            })
-    }
-}
 
-@Composable
-fun MakeDirectoryLastStep() {
-    Column(verticalArrangement = Arrangement.spacedBy(space = 14.dp)) {
-        for (i in 1..5)
-            CustomTextField(value = "",
-                onValueChange = { },
-                label = "Question Santé",
-                placeholder = "Question santé",
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.AccountCircle,
-                        contentDescription = null
-                    )
-                })
-    }
-}
+
+
 
 
 @Preview
 @Composable
 private fun MakeDirectoryPreview() {
     MobilityHealthTheme {
-        MakeDirectory()
+        MakeDirectory(){
+
+        }
     }
 }

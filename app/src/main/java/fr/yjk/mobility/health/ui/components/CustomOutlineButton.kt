@@ -1,19 +1,19 @@
 package fr.yjk.mobility.health.ui.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.ArrowForward
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -26,25 +26,20 @@ import fr.yjk.mobility.health.ui.theme.handelGotDBol
 
 
 @Composable
-fun CustomButton(
+fun CustomOutlineButton(
     text: String,
-    enabled: Boolean=true,
-    icon: @Composable (() -> Unit)? = null,
+    icon: ImageVector? = null,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-    Button(
-        enabled = enabled,
+    OutlinedButton(
         contentPadding = PaddingValues(vertical = 16.dp),
         shape = RoundedCornerShape(14.dp),
         modifier = modifier.fillMaxWidth(),
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors().copy(
-            disabledContainerColor= ButtonDefaults.buttonColors().containerColor.copy(alpha = 0.4f),
-            disabledContentColor = ButtonDefaults.buttonColors().contentColor.copy(alpha = 0.6f)
-        )
+        border =  BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
     ) {
-        Row(modifier = Modifier.padding(horizontal = 22.dp)) {
+        Row(modifier = Modifier.padding(horizontal = 16.dp)) {
             Text(
                 text = text, style = TextStyle(
                     fontSize = 16.sp,
@@ -55,7 +50,7 @@ fun CustomButton(
                 ), textAlign = TextAlign.Center,
                 modifier = Modifier.weight(weight = 1f)
             )
-            if (icon != null) icon()
+            if (icon != null) Icon(imageVector = icon, contentDescription = null)
         }
     }
 }
@@ -65,7 +60,7 @@ fun CustomButton(
 @Composable
 private fun CustomButtonPreview() {
     MobilityHealthTheme {
-        CustomButton(
+        CustomOutlineButton(
             text = "dfdf",
             onClick = {}
         )

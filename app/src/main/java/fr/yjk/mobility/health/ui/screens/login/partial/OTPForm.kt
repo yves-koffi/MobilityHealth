@@ -1,12 +1,18 @@
-import androidx.compose.foundation.layout.*
+package fr.yjk.mobility.health.ui.screens.login.partial
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -14,7 +20,9 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import fr.yjk.mobility.health.ui.theme.MobilityHealthTheme
 
 @Composable
 fun OTPForm(otpLength: Int = 6, onOtpSubmit: (String) -> Unit) {
@@ -24,17 +32,19 @@ fun OTPForm(otpLength: Int = 6, onOtpSubmit: (String) -> Unit) {
 
     Column(
         modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Enter OTP", style = MaterialTheme.typography.headlineMedium)
-
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             for (i in 0 until otpLength) {
-                OutlinedTextField(
+                TextField(
+                    textStyle = MaterialTheme.typography.titleMedium,
+                    colors = TextFieldDefaults.colors(
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                        focusedContainerColor = MaterialTheme.colorScheme.surface
+                    ),
                     value = otp[i],
                     onValueChange = { newValue ->
                         if (newValue.length <= 1 && newValue.all { it.isDigit() }) {
@@ -45,6 +55,11 @@ fun OTPForm(otpLength: Int = 6, onOtpSubmit: (String) -> Unit) {
                                 } else {
                                     focusManager.clearFocus() // Hide keyboard on last digit
                                     onOtpSubmit(otp.joinToString("")) // Submit OTP
+                                }
+                            } else {
+                                otp[i] = ""
+                                if (i >= 1) {
+                                    focusRequesters[i - 1].requestFocus()
                                 }
                             }
                         } else {
@@ -73,51 +88,28 @@ fun OTPForm(otpLength: Int = 6, onOtpSubmit: (String) -> Unit) {
                     maxLines = 1
                 )
 
-                LaunchedEffect(Unit) {
+                /*LaunchedEffect(Unit) {
                     if (i == 0) {
                         focusRequesters[0].requestFocus() // Focus on first input field on launch
                     }
-                }
+                }*/
             }
         }
-
-        Button(onClick = {
-            focusManager.clearFocus()
-            onOtpSubmit(otp.joinToString(""))
-        }) {
-            Text("Verify OTP")
-        }
+        /* Button(onClick = {
+             focusManager.clearFocus()
+             onOtpSubmit(otp.joinToString(""))
+         }) {
+             Text("Verify OTP")
+         }*/
     }
 }
 
+@Preview
 @Composable
-fun OTPExample() {
-    var otpValue by remember { mutableStateOf("") }
+private fun OTPFormPreview() {
+    MobilityHealthTheme {
+        OTPForm(otpLength=6) {
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        OTPForm(
-            otpLength = 6,
-            onOtpSubmit = { otp ->
-                otpValue = otp
-                println("OTP Submitted: $otp")
-            }
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text("Submitted OTP: $otpValue")
-    }
-}
-
-// Preview provider (for Android Studio)
-@Composable
-@androidx.compose.ui.tooling.preview.Preview(showBackground = true)
-fun OTPPreview() {
-    MaterialTheme {
-        OTPExample()
+        }
     }
 }
