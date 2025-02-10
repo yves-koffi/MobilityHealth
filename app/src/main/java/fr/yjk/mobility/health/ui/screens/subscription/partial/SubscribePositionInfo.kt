@@ -55,8 +55,8 @@ fun SubscribePositionInfo() {
         SelectField(
             values = nationalityList,
             value = nationalityList.last(),
-            placeholder = "Sélectionner Votre pays de Résidence habituel",
-            label = "Nationalité",
+            placeholder = stringResource(R.string.nationality_hint),
+            label = stringResource(R.string.nationality_label),
             heightFraction = 0.6f,
             onChange = {},
             key = { it.key },
@@ -119,8 +119,8 @@ fun SubscribePositionInfo() {
         SelectField(
             values = countries,
             value = countries.last(),
-            placeholder = "Sélectionner Votre pays de départ",
-            label = "Pays de départ",
+            placeholder = stringResource(R.string.cc_start_hint),
+            label = stringResource(R.string.cc_start_label),
             heightFraction = 0.6f,
             onChange = {},
             key = { it.key },
@@ -182,8 +182,8 @@ fun SubscribePositionInfo() {
         SelectField(
             values = countries,
             value = countries.first(),
-            placeholder = "Sélectionner Votre pays de destination",
-            label = "Pays de destination",
+            placeholder = stringResource(R.string.cc_end_hint),
+            label = stringResource(R.string.cc_end_label),
             heightFraction = 0.6f,
             onChange = {},
             key = { it.key },

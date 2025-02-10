@@ -1,12 +1,15 @@
+// Ce fichier configure l'hôte de navigation principal de l'application, définissant les routes de navigation et leurs écrans correspondants.
+
+
 package fr.yjk.mobility.health.ui.navigation
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import fr.yjk.mobility.health.ui.screens.BeforeAuthScreen
@@ -16,6 +19,7 @@ import fr.yjk.mobility.health.ui.screens.login.LoginOtpScreen
 import fr.yjk.mobility.health.ui.screens.login.LoginRequestScreen
 import fr.yjk.mobility.health.ui.screens.register.RegisterStep
 import fr.yjk.mobility.health.ui.screens.subscription.Subscription
+import fr.yjk.mobility.health.ui.screens.subscription.partial.PaidSubscribe
 import fr.yjk.mobility.health.ui.screens.workspace.Workspace
 import kotlinx.serialization.Serializable
 
@@ -45,6 +49,9 @@ object Menu {
 
     @Serializable
     object Subscribe
+
+    @Serializable
+    object Paid
 }
 
 @Composable
@@ -117,19 +124,8 @@ fun MainAppNavHost(
                 }
             })
         }
+        dialog<Menu.Paid>(dialogProperties = DialogProperties(dismissOnClickOutside = false)) {
+            PaidSubscribe()
+        }
     }
-}
-
-@Composable
-fun Greeting(
-    name: String
-) {
-
-
-    Column {
-        Text(
-            text = "Hello Yves koffi !",
-        )
-    }
-
 }

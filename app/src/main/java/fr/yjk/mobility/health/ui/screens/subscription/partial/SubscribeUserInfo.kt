@@ -14,14 +14,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -59,8 +62,9 @@ fun SubscribeUserInfo() {
                         modifier = Modifier
                             .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text("Assistance voyage")
-                        Text("Prix en fcfa", style = TextStyle(
+                        Text(stringResource(R.string.assistance_voyage_label))
+                        Text(
+                            stringResource(R.string.amount_en_fcfa), style = TextStyle(
                             fontWeight = FontWeight.W500,
                             fontSize = 16.sp,
                             lineHeight = 18.sp
@@ -69,13 +73,16 @@ fun SubscribeUserInfo() {
                     }
                     Spacer(modifier = Modifier.height(height = 16.dp))
                     TextButton(onClick = {}) {
-                        Row {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(space = 12.dp)
+                        ) {
                             Icon(
                                 painter = painterResource(R.drawable.nav),
                                 contentDescription = null,
-                                Modifier.size(size = 24.dp)
+                                Modifier.size(size = 16.dp)
                             )
-                            Text("Détails")
+                            Text(stringResource(R.string.details))
                         }
                     }
                 }
@@ -83,7 +90,7 @@ fun SubscribeUserInfo() {
         }
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            "Questions de santé", style = TextStyle(
+            stringResource(R.string.qs), style = TextStyle(
                 fontSize = 20.sp,
                 lineHeight = 24.sp,
                 fontWeight = FontWeight.W400,
@@ -92,10 +99,11 @@ fun SubscribeUserInfo() {
             )
         )
         for (i in 1..4)
-            CustomTextField(value = "",
+            CustomTextField(
+                value = "",
                 onValueChange = { },
-                label = "Question $i",
-                placeholder = "Question santé",
+                label = stringResource(R.string.qs),
+                placeholder = stringResource(R.string.qs),
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.AccountCircle,

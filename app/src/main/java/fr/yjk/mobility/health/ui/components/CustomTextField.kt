@@ -1,3 +1,4 @@
+// Ce fichier définit le composant CustomTextField utilisé pour les champs de texte personnalisés dans l'application.
 package fr.yjk.mobility.health.ui.components
 
 import androidx.compose.foundation.layout.Arrangement

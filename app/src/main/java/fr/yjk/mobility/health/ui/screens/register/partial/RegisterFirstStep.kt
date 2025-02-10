@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import fr.yjk.mobility.health.R
 import fr.yjk.mobility.health.fake.Country
 import fr.yjk.mobility.health.ui.components.CustomTextField
 import fr.yjk.mobility.health.ui.components.SelectField
@@ -39,8 +40,8 @@ fun RegisterFirstStep() {
         SelectField(
             values = countries,
             value = countries.first(),
-            placeholder = "Pays de Résidence",
-            label = "Sélectionner Votre pays de Résidence habituel",
+            placeholder = stringResource(R.string.cc_r_hint),
+            label = stringResource(R.string.nationality_hint),
             heightFraction = 0.7f,
             onChange = {},
             key = { it.key },
@@ -101,8 +102,8 @@ fun RegisterFirstStep() {
         SelectField(
             values = nationalityList,
             value = nationalityList.last(),
-            placeholder = "Entrez votre Nationalité",
-            label = "Nationalité",
+            placeholder = stringResource(R.string.entrez_votre_nationalit),
+            label = stringResource(R.string.nationality_label),
             heightFraction = 0.6f,
             onChange = {},
             key = {  it.key },
@@ -160,10 +161,11 @@ fun RegisterFirstStep() {
 
         }
 
-        CustomTextField(value = "Entrer Votre Nom",
+        CustomTextField(
+            value = "",
             onValueChange = { },
-            label = "Nom",
-            placeholder = "Entrer Votre Nom",
+            label = stringResource(R.string.name_label),
+            placeholder = stringResource(R.string.name_hint),
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.AccountCircle,
@@ -173,8 +175,8 @@ fun RegisterFirstStep() {
             })
         CustomTextField(value = "",
             onValueChange = { },
-            label = "Prénoms",
-            placeholder = "Entrer Votre Prénom",
+            label = stringResource(R.string.first_name_label),
+            placeholder = stringResource(R.string.first_nam_hint),
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.AccountCircle,

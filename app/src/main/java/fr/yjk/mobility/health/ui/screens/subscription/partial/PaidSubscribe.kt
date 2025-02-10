@@ -43,7 +43,9 @@ fun PaidSubscribe() {
     val context = LocalContext.current
     val paymentMethod = PaymentMethod.items
     Column(
-        modifier = Modifier.fillMaxSize().verticalScroll(state = rememberScrollState()),
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(state = rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(space = 14.dp)
     ) {
         Surface(
@@ -75,7 +77,7 @@ fun PaidSubscribe() {
                             modifier = Modifier
                         ) {
                             Text(
-                                "produit d’assistance", style = TextStyle(
+                                stringResource(R.string.produit_d_assistance), style = TextStyle(
                                     fontSize = 14.sp,
                                     lineHeight = 18.sp,
                                     color = MaterialTheme.colorScheme.secondary
@@ -83,7 +85,7 @@ fun PaidSubscribe() {
                             )
                             Spacer(modifier = Modifier.height(height = 16.dp))
                             Text(
-                                "details produit / récap", style = TextStyle(
+                                stringResource(R.string.details_produit_r_cap), style = TextStyle(
                                     fontSize = 13.sp,
                                     lineHeight = 17.sp
                                 )
@@ -93,7 +95,7 @@ fun PaidSubscribe() {
                             modifier = Modifier
                         ) {
                             Text(
-                                "1 mois d’assurance", style = TextStyle(
+                                stringResource(R.string.mois_d_assurance), style = TextStyle(
                                     fontSize = 13.sp,
                                     lineHeight = 18.sp,
                                     color = MaterialTheme.colorScheme.secondary
@@ -101,7 +103,7 @@ fun PaidSubscribe() {
                             )
                             Spacer(modifier = Modifier.height(height = 16.dp))
                             Text(
-                                "35.000 fcfa", style = TextStyle(
+                                stringResource(R.string.amount), style = TextStyle(
                                     fontSize = 18.sp,
                                     lineHeight = 18.sp,
                                     fontWeight = FontWeight.W800,
@@ -118,8 +120,8 @@ fun PaidSubscribe() {
             SelectField(
                 values = paymentMethod,
                 value = paymentMethod.first(),
-                placeholder = "Question santé",
-                label = "Payer par :",
+                placeholder = "",
+                label = stringResource(R.string.paid_by),
                 heightFraction = 0.6f,
                 onChange = {},
                 key = { it.key },

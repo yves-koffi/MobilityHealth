@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -50,7 +51,7 @@ fun PaymentSuccessMessage() {
             )
             Spacer(modifier = Modifier.height(height = 32.dp))
             Text(
-                text = "Merci,", style = TextStyle(
+                text = stringResource(R.string.thanks), style = TextStyle(
                     fontSize = 32.sp,
                     lineHeight = 39.sp,
                     fontWeight = FontWeight.W400,
@@ -59,7 +60,7 @@ fun PaymentSuccessMessage() {
                 )
             )
             Text(
-                text = "Nous avons bien reçu votre paiement",
+                text = stringResource(R.string.paid_success),
                 modifier = Modifier,
                 textAlign = TextAlign.Center,
                 style = TextStyle(

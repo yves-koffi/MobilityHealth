@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -60,7 +61,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Subscription(onHome:()->Unit) {
+fun Subscription(onHome: () -> Unit) {
     var paid by remember {
         mutableStateOf(false)
     }
@@ -70,7 +71,7 @@ fun Subscription(onHome:()->Unit) {
     }, initialPage = 0)
     Scaffold(topBar = {
         TopAppBar(navigationIcon = {
-            if(pagerState.currentPage>0){
+            if (pagerState.currentPage > 0) {
                 IconButton(onClick = {
                     if (pagerState.currentPage > 0) {
                         coroutineScope.launch {
@@ -78,7 +79,10 @@ fun Subscription(onHome:()->Unit) {
                         }
                     }
                 }) {
-                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "back")
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "back"
+                    )
                 }
             }
 
@@ -92,8 +96,15 @@ fun Subscription(onHome:()->Unit) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(space = 8.dp)
             ) {
+
                 Text(
-                    text = "Choisir son produit d’assistance", style = TextStyle(
+                    text = stringResource(when (pagerState.currentPage) {
+                        0, 1 -> R.string.subTitle1
+                        2 -> R.string.subTitle2
+                        3 -> R.string.subTitle3
+                        4 -> R.string.subTitle4
+                        else -> R.string.subTitle4
+                    }), style = TextStyle(
                         fontSize = 20.sp,
                         lineHeight = 24.sp,
                         fontWeight = FontWeight.W400,
@@ -160,11 +171,11 @@ fun Subscription(onHome:()->Unit) {
                 }
 
                 CustomButton(
-                    text = if (pagerState.currentPage == 0) "Suivant" else "Proceder au paiement",
+                    text = stringResource(if (pagerState.currentPage == 0) R.string.btnNext else R.string.btnPaid),
                     icon = {
                         Icon(painter = painterResource(R.drawable.next), contentDescription = null)
                     }) {
-                    if (pagerState.currentPage == 4){
+                    if (pagerState.currentPage == 4) {
                         paid = true
                     }
                     coroutineScope.launch {
@@ -180,18 +191,11 @@ fun Subscription(onHome:()->Unit) {
 }
 
 
-
-
-
-
-
-
-
 @Preview
 @Composable
 private fun SubscriptionPreview() {
     MobilityHealthTheme {
-        Subscription(){
+        Subscription() {
 
         }
     }

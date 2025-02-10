@@ -1,55 +1,94 @@
 <resources>
-    <string name="app_name">Mobility health</string>
+    <string name="app_name" translatable="false">Mobility health</string>
+
     <string name="home">Home</string>
     <string name="travel">Travel</string>
     <string name="category">Category</string>
     <string name="help">Help</string>
-
-
-    <string name="m">Monsieur</string>
-    <string name="mm">Madame</string>
+    <string name="m">Sir</string>
+    <string name="mm">Madam</string>
     <string name="md">Mademoiselle</string>
-    <string name="btnNext">Suivant</string>
-
-    <string name="ci_n">Ivoirienne</string>
+    <string name="btnNext">Next</string>
+    <string name="btnPaid">Proceed to payment</string>
+    <string name="ci_n">Ivorian</string>
     <string name="em_n">Emirienne</string>
-    <string name="tu_n">Turque</string>
-    <string name="cn_n">Chinoise</string>
-    <string name="c_in_n">Indienne</string>
-    <string name="gh_n">Ghanéenne</string>
-
-    <string name="ci">Cote d’ivoire</string>
-    <string name="em">Emirat arabes unis</string>
-    <string name="tu">Turqie</string>
-    <string name="cn">Chine</string>
-    <string name="c_in">Inde</string>
+    <string name="tu_n">Turkish</string>
+    <string name="cn_n">Chinese</string>
+    <string name="c_in_n">Indian</string>
+    <string name="gh_n">Ghanaian</string>
+    <string name="ci">Ivory Coast</string>
+    <string name="em">United Arab Emirate</string>
+    <string name="tu">Turkey</string>
+    <string name="cn">China</string>
+    <string name="c_in">India</string>
     <string name="gh">Ghana</string>
-
     <string name="p1">Apple Pay</string>
     <string name="p2">Mastercard</string>
     <string name="p3">Visa</string>
     <string name="p4">Orange money</string>
     <string name="p5">Moov money</string>
     <string name="p6">Mtn money</string>
-
-    <string name="subscribeBtn">Souscription</string>
-    <string name="homeInfo">Votre Assurance\npartout avec vous!</string>
-    <string name="welcome">Bienvenue, %s</string>
-
-    <string name="optTitle">Entrer le code otp</string>
-    <string name="optInfo">Veuillez confirmer le code OTP recu par sms</string>
-    <string name="optWait">Pas encore reçu de code? %s </string>
-    <string name="optResend">Renvoyez le code</string>
-
+    <string name="subscribeBtn">Subscription</string>
+    <string name="homeInfo">Your Insurance\neverywhere with you!</string>
+    <string name="welcome">Welcome, %s</string>
+    <string name="optTitle">Enter otp code</string>
+    <string name="optInfo">Please confirm the OTP code received by sms</string>
+    <string name="optWait">Not received a code yet? %s </string>
+    <string name="optResend">Resend the code</string>
     <string name="lrEmail">Email</string>
-    <string name="lrEmailHint">Entrer Votre email</string>
-    <string name="lrNumWhatsappHint">Entrer Votre numero whatsapp</string>
-    <string name="lrValidateBtn">Valider</string>
-    <string name="lrNumWhatsapp">Numero whatsapp</string>
+    <string name="lrEmailHint">Enter your email</string>
+    <string name="lrNumWhatsappHint">Enter your whatsapp number</string>
+    <string name="lrValidateBtn">Validate</string>
+    <string name="lrNumWhatsapp">Whatsapp number</string>
+    <string name="login">Log in</string>
+    <string name="register">Register</string>
+    <string name="beforeAuthInfo">Register in a few clicks and benefit from complete protection for your trips abroad.</string>
+    <string name="beforeAuthTitle">Your travel assistance made easy, wherever you go.</string>
+    <string name="pass">Pass</string>
+    <string name="checkDir">Validate your file</string>
+    <string name="dirInfo">fill out this additional questionnaire to validate your health file</string>
+    <string name="subTitle1">Choose your assistance product</string>
+    <string name="subTitle2">Subscribe to an insurance product</string>
+    <string name="subTitle3">Personal information</string>
+    <string name="subTitle4">Payment</string>
+    <string name="qs">Health Question</string>
+    <string name="chooseTitle">Your insurance product</string>
+    <string name="assistance_voyage">Travel assistance</string>
+    <string name="price">Price in FCFA</string>
+    <string name="details">Details</string>
+    <string name="produit_d_assistance">assistance product</string>
+    <string name="details_produit_r_cap">details produit / récap</string>
+    <string name="mois_d_assurance">1 month of insurance</string>
+    <string name="amount">35,000 fcfa</string>
+    <string name="paid_by">Pay by:</string>
+    <string name="paid_success">We have received your payment</string>
+    <string name="confirm_phone">Confirm your phone number</string>
+    <string name="phone_number">+225 O7 O7 O7 O7</string>
+    <string name="number_whatsapp">Confirm your whatsapp number</string>
+    <string name="nationality_hint">Select your usual country of residence</string>
+    <string name="nationality_label">Nationality</string>
+    <string name="cc_start_hint">Select your country of departure</string>
+    <string name="cc_start_label">Country of departure</string>
+    <string name="cc_end_hint">Select Your Destination Country</string>
+    <string name="cc_end_label">Destination Country</string>
+    <string name="assistance_voyage_label">Travel Assistance</string>
+    <string name="amount_en_fcfa">Price in fcfa</string>
+    <string name="register_title">Register</string>
+    <string name="register_info">Don\'t worry, only you can see your personal information, no one else will be able to see it.</string>
+    <string name="confirm_condition_use">By pressing “next”, you agree to our terms and conditions and privacy policy.</string>
+    <string name="name_label">Last Name</string>
+    <string name="name_hint">Enter Your Last Name</string>
+    <string name="first_name_label">First Names</string>
+    <string name="first_nam_hint">Enter Your First Name</string>
+    <string name="cc_r_hint">Country of Residence</string>
+    <string name="entrez_votre_nationalit">Enter your Nationality</string>
+    <string name="num_ro_whatsapp">Whatsapp Number</string>
+    <string name="entrer_votre_num_ro_whatsapp">Enter Your Whatsapp Number</string>
+    <string name="birthday_label">Date of Birth</string>
+    <string name="birthday_hint">Enter Your Date of Birth</string>
+    <string name="main_number_label">Main Phone Number</string>
+    <string name="main_number_hint">Enter Your Phone Number</string>
+    <string name="thanks">Thanks,</string>
 
-    <string name="login">Se connecter</string>
-    <string name="register">S’inscrire</string>
-    <string name="beforeAuthInfo">Inscrivez-vous en quelques clics et bénéficiez d’une protection complète pour vos déplacements à l’étranger.</string>
-    <string name="beforeAuthTitle">Votre Assistance voyage \n simplifiée, où que vous alliez.</string>
 
 </resources>

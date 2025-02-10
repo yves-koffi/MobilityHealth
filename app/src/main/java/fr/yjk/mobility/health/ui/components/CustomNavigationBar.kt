@@ -1,3 +1,5 @@
+// Ce fichier définit le composant CustomNavigationBar utilisé pour la navigation dans l'application.
+
 package fr.yjk.mobility.health.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
@@ -23,7 +25,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -75,7 +76,7 @@ fun CustomNavigationBarItem(modifier: Modifier = Modifier, index: Int, item: Bot
             painter = painterResource(id = if (index == item.index) item.resourceIconUnselected else item.resourceIconSelected),
             contentDescription = stringResource(id = item.resourceLabel),
             modifier = Modifier.size(size = 24.dp),
-            tint = if (index == item.index || index < 4 && index + 1 == item.index || index == 4 && index - 1 == item.index) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+            tint = if (index == item.index || index < 4 && index + 1 == item.index || index == 4 && index - 1 == item.index) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
         )
         Spacer(modifier = Modifier.width(width = 4.dp))
         AnimatedVisibility(index == item.index) {

@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import fr.yjk.mobility.health.R
 import fr.yjk.mobility.health.fake.Country
 import fr.yjk.mobility.health.fake.Gender
 import fr.yjk.mobility.health.ui.components.CustomTextField
@@ -232,14 +233,14 @@ fun MakeDirectoryFirstStep() {
         CustomTextField(
             value = "",
             onValueChange = { },
-            label = "Question Santé",
-            placeholder = "Question santé"
+            label = stringResource(R.string.qs),
+            placeholder = stringResource(R.string.qs)
         )
         CustomTextField(
             value = "",
             onValueChange = { },
-            label = "Question Santé",
-            placeholder = "Question santé"
+            label = stringResource(R.string.qs),
+            placeholder = stringResource(R.string.qs)
         )
     }
 }

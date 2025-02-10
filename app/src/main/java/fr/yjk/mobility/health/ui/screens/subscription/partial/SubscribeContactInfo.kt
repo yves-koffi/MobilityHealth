@@ -11,6 +11,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.yjk.mobility.health.R
@@ -25,8 +26,8 @@ fun SubscribeContactInfo() {
         Spacer(modifier = Modifier.height(height = 32.dp))
         CustomTextField(value = "",
             onValueChange = { },
-            label = "Confirmer votre numéro de téléphone",
-            placeholder = "+225 O7 O7 O7 O7",
+            label = stringResource(R.string.confirm_phone),
+            placeholder = stringResource(R.string.phone_number),
             leadingIcon = {
                 Icon(
                     painter = painterResource(R.drawable.smartphone),
@@ -36,8 +37,8 @@ fun SubscribeContactInfo() {
             })
         CustomTextField(value = "",
             onValueChange = { },
-            label = "Confirmer votre Numéro whatsapp",
-            placeholder = "+225 O7 O7 O7 O7",
+            label = stringResource(R.string.number_whatsapp),
+            placeholder = stringResource(R.string.phone_number),
             leadingIcon = {
                 Icon(
                     painter = painterResource(R.drawable.smartphone),
