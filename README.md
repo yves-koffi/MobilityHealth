@@ -13,7 +13,7 @@ Mobility Health est une application Android conçue pour améliorer la santé et
 1. Clonez le dépôt :
     ```sh
     git clone https://github.com/yves-koffi/MobilityHealth.git
-    cd mobility-health
+    cd MobilityHealth
     ```
 
 2. Ouvrez le projet dans Android Studio.
