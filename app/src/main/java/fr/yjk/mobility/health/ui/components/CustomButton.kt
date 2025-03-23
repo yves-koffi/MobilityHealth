@@ -5,12 +5,15 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -24,19 +27,20 @@ import fr.yjk.mobility.health.ui.theme.handelGotDBol
 @Composable
 fun CustomButton(
     text: String,
-    enabled: Boolean=true,
+    enabled: Boolean = true,
+    progress: Boolean = false,
     icon: @Composable (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Button(
-        enabled = enabled,
+        enabled = enabled && !progress,
         contentPadding = PaddingValues(vertical = 16.dp),
         shape = RoundedCornerShape(14.dp),
         modifier = modifier.fillMaxWidth(),
         onClick = onClick,
         colors = ButtonDefaults.buttonColors().copy(
-            disabledContainerColor= ButtonDefaults.buttonColors().containerColor.copy(alpha = 0.4f),
+            disabledContainerColor = ButtonDefaults.buttonColors().containerColor.copy(alpha = 0.4f),
             disabledContentColor = ButtonDefaults.buttonColors().contentColor.copy(alpha = 0.6f)
         )
     ) {
@@ -51,7 +55,13 @@ fun CustomButton(
                 ), textAlign = TextAlign.Center,
                 modifier = Modifier.weight(weight = 1f)
             )
-            if (icon != null) icon()
+            if (progress)
+                CircularProgressIndicator(
+                    color = Color.White,
+                    strokeWidth = 2.dp,
+                    modifier = Modifier.size(size = 20.dp)
+                )
+            else if (icon != null) icon()
         }
     }
 }

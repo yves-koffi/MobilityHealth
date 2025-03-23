@@ -33,12 +33,12 @@ fun CustomTab(index: Int, onChange: (Int) -> Unit) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
         modifier = Modifier
-            .clip(RoundedCornerShape(12.dp))
-            .height(56.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .height(54.dp)
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.outline.copy(alpha = 0.1f))
             .border(
-                shape = RoundedCornerShape(12.dp),
+                shape = RoundedCornerShape(8.dp),
                 color = MaterialTheme.colorScheme.outline.copy(alpha = 0.15f),
                 width = 1.dp
             )

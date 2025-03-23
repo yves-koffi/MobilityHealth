@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="home">Home</string>
+    <string name="search">Recherche…</string>
+    <string name="cancel">Annuler</string>
+    <string name="defined">Définir</string>
+    <string name="close">Fermer</string>
+    <string name="date_filter">Sélectionnez une période</string>
+    <string name="terming">Terminé</string>
+    <string name="sync_wait">En attente</string>
+    <string name="sync_update">Mise à jour a l\'instant</string>
+    <string name="sync_load">Synchronisation…</string>
+    <string name="sign_up">S\'inscrire</string>
+
     <string name="travel">Travel</string>
     <string name="category">Category</string>
     <string name="help">Help</string>
@@ -40,6 +51,7 @@
     <string name="lrValidateBtn">Valider</string>
     <string name="lrNumWhatsapp">Numero whatsapp</string>
     <string name="login">Se connecter</string>
+    <string name="connection">Connexion</string>
     <string name="register">S’inscrire</string>
     <string name="beforeAuthInfo">Inscrivez-vous en quelques clics et bénéficiez d’une protection complète pour vos déplacements à l’étranger.</string>
     <string name="beforeAuthTitle">Votre Assistance voyage \n simplifiée, où que vous alliez.</string>
@@ -88,4 +100,6 @@
     <string name="main_number_label">Numéro de téléphone principal</string>
     <string name="main_number_hint">Entrer Votre Numéro de téléphone</string>
     <string name="thanks">Merci,</string>
+    <string name="building">Nous travaillons sur cette page \nElle sera accessible prochainement</string>
+
 </resources>

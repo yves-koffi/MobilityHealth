@@ -16,12 +16,16 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,19 +37,47 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import fr.yjk.mobility.health.R
+import fr.yjk.mobility.health.localProvider.LocalPreferences
+import fr.yjk.mobility.health.network.UiResult
+import fr.yjk.mobility.health.network.request.OtpRequest
 import fr.yjk.mobility.health.ui.components.CustomButton
+import fr.yjk.mobility.health.ui.components.ErrorLabel
 import fr.yjk.mobility.health.ui.screens.login.partial.OTPForm
 import fr.yjk.mobility.health.ui.screens.login.partial.ResendOTPCode
 import fr.yjk.mobility.health.ui.theme.MobilityHealthTheme
 import fr.yjk.mobility.health.ui.theme.handelGotDBol
 import fr.yjk.mobility.health.ui.theme.scaffoldPadding
+import fr.yjk.mobility.health.utils.extensions.Failure
+import fr.yjk.mobility.health.utils.extensions.FailureType
+import kotlinx.coroutines.launch
+import okhttp3.internal.wait
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginOtpScreen(onHome: () -> Unit,onBack: () -> Unit) {
+fun LoginOtpScreen(
+    email: String,
+    loginViewModel: LoginViewModel = hiltViewModel<LoginViewModel>(),
+    onHome: () -> Unit, onBack: () -> Unit
+) {
     var otpValue by remember { mutableStateOf("") }
-    Scaffold(topBar = {
+    val localPreferences = LocalPreferences.current
+    var error: String? by remember {
+        mutableStateOf(null)
+    }
+    var isProgress: Boolean by remember {
+        mutableStateOf(false)
+    }
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        },
+        topBar = {
         TopAppBar(navigationIcon = {
             IconButton(onClick = {
                 onBack()
@@ -106,13 +138,42 @@ fun LoginOtpScreen(onHome: () -> Unit,onBack: () -> Unit) {
                         otpValue = otp
                     }
                 )
-                ResendOTPCode()
-                Spacer(modifier = Modifier.height(8.dp))
+                ErrorLabel(error = error)
+                ResendOTPCode(loginViewModel = loginViewModel,email=email)
+                Spacer(modifier = Modifier.height(2.dp))
                 CustomButton(
+                    progress = isProgress,
                     enabled = otpValue.length == 6,
                     text = stringResource(R.string.lrValidateBtn)
                 ) {
-                    onHome()
+                    loginViewModel.login(
+                        data = OtpRequest(
+                            otp = otpValue,
+                            deviceName = "oppo"
+                        )
+                    ) { response ->
+                        isProgress = response is UiResult.Loading
+
+                        if (response is UiResult.Success) {
+                            localPreferences.attempt(response.data)
+                        } else {
+                            if (response is UiResult.Error) {
+                                val failure = response.failure
+                                if(failure.type == FailureType.Validation){
+                                    error = failure.message
+                                }else{
+                                    scope.launch {
+                                       snackbarHostState
+                                            .showSnackbar(
+                                                message = failure.message,
+                                                actionLabel = "Ok".uppercase(),
+                                                duration = SnackbarDuration.Short
+                                            )
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -120,12 +181,11 @@ fun LoginOtpScreen(onHome: () -> Unit,onBack: () -> Unit) {
 }
 
 
-
 @Preview
 @Composable
 private fun LoginOtpScreenPreview() {
     MobilityHealthTheme {
-        LoginOtpScreen(onHome = {}) {
+        LoginOtpScreen(onHome = {}, email = "yves.koffi@devolution.africa", loginViewModel = hiltViewModel<LoginViewModel>()) {
 
         }
     }

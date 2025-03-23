@@ -32,6 +32,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import fr.yjk.mobility.health.R
+import fr.yjk.mobility.health.localProvider.LocalPreferences
 import fr.yjk.mobility.health.ui.components.CustomNavigationBar
 import fr.yjk.mobility.health.ui.components.CustomNavigationBarItem
 import fr.yjk.mobility.health.ui.screens.workspace.partial.WorkspaceCategory
@@ -58,6 +59,8 @@ object WorkspaceMenu {
 
 @Composable
 fun Workspace(onSubscribe: () -> Unit) {
+
+    val localPreferences = LocalPreferences.current
     val navController: NavHostController = rememberNavController()
     var selectedItem by rememberSaveable { mutableIntStateOf(1) }
 
@@ -103,7 +106,9 @@ fun Workspace(onSubscribe: () -> Unit) {
         FloatingActionButton(
             containerColor = if (isSystemInDarkTheme()) Color.Black else Color.White,
             shape = RoundedCornerShape(size = 72.dp),
-            onClick = {}) {
+            onClick = {
+                localPreferences.logout()
+            }) {
             Image(
                 painter = painterResource(R.drawable.alert01),
                 contentDescription = null,

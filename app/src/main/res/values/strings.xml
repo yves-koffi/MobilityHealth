@@ -1,5 +1,16 @@
 <resources>
     <string name="app_name" translatable="false">Mobility health</string>
+    <string name="sync_wait">Waiting</string>
+    <string name="sync_update">Updating now</string>
+    <string name="sync_load">Sync…</string>
+    <string name="search">Search…</string>
+    <string name="cancel">Cancel</string>
+    <string name="defined">Defined</string>
+    <string name="close">Close</string>
+    <string name="date_filter">Select a period</string>
+    <string name="terming">Done</string>
+    <string name="sign_up">Sign up</string>
+
 
     <string name="home">Home</string>
     <string name="travel">Travel</string>
@@ -36,6 +47,7 @@
     <string name="optWait">Not received a code yet? %s </string>
     <string name="optResend">Resend the code</string>
     <string name="lrEmail">Email</string>
+    <string name="connection">Connection</string>
     <string name="lrEmailHint">Enter your email</string>
     <string name="lrNumWhatsappHint">Enter your whatsapp number</string>
     <string name="lrValidateBtn">Validate</string>
@@ -89,6 +101,7 @@
     <string name="main_number_label">Main Phone Number</string>
     <string name="main_number_hint">Enter Your Phone Number</string>
     <string name="thanks">Thanks,</string>
+    <string name="building">We are working on this page \nIt will be available soon</string>
 
 
 </resources>

@@ -17,13 +17,9 @@ data class Country(
                 name = R.string.ci,
                 resource = R.drawable.ci
             ),
+
             PaymentMethod(
-                key = "em",
-                name = R.string.em,
-                resource = R.drawable.em
-            ),
-            PaymentMethod(
-                key = "tu",
+                key = "tr",
                 name = R.string.tu,
                 resource = R.drawable.tu
             ),
@@ -32,11 +28,7 @@ data class Country(
                 name = R.string.cn,
                 resource = R.drawable.cn
             ),
-            PaymentMethod(
-                key = "in",
-                name = R.string.c_in,
-                resource = R.drawable.c_in
-            ),
+
             PaymentMethod(
                 key = "gh",
                 name = R.string.gh,
@@ -50,12 +42,7 @@ data class Country(
                 resource = R.drawable.ci
             ),
             PaymentMethod(
-                key = "em",
-                name = R.string.em_n,
-                resource = R.drawable.em
-            ),
-            PaymentMethod(
-                key = "tu",
+                key = "tr",
                 name = R.string.tu_n,
                 resource = R.drawable.tu
             ),
@@ -63,11 +50,6 @@ data class Country(
                 key = "cn",
                 name = R.string.cn_n,
                 resource = R.drawable.cn
-            ),
-            PaymentMethod(
-                key = "in",
-                name = R.string.c_in_n,
-                resource = R.drawable.c_in
             ),
             PaymentMethod(
                 key = "gh",

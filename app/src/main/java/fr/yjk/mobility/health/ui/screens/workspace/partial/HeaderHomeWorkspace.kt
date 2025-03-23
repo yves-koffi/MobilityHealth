@@ -18,6 +18,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,11 +36,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fr.yjk.mobility.health.R
+import fr.yjk.mobility.health.localProvider.LocalPreferences
 import fr.yjk.mobility.health.ui.theme.MobilityHealthTheme
 import fr.yjk.mobility.health.ui.theme.handelGotDBol
 
 @Composable
 fun HeaderHomeWorkspace(onSubscribe: () -> Unit) {
+    val authUIState = LocalPreferences.current.authUIState.collectAsState().value
     val colors = listOf(
         MaterialTheme.colorScheme.secondary.copy(alpha = 0.6f),
         MaterialTheme.colorScheme.primary,
@@ -81,15 +84,18 @@ fun HeaderHomeWorkspace(onSubscribe: () -> Unit) {
                     .padding(all = 16.dp)
             ) {
                 Column(modifier = Modifier.weight(weight = 1f)) {
-                    Text(
-                        stringResource(R.string.welcome, "Marc"), style = TextStyle(
-                            fontSize = 13.sp,
-                            lineHeight = 13.sp,
-                            fontWeight = FontWeight.W400,
-                            fontFamily = handelGotDBol,
-                            color = Color.White
+                    authUIState.currentUser?.let { auth ->
+                        Text(
+                            stringResource(R.string.welcome, auth.customer.firstname), style = TextStyle(
+                                fontSize = 13.sp,
+                                lineHeight = 13.sp,
+                                fontWeight = FontWeight.W400,
+                                fontFamily = handelGotDBol,
+                                color = Color.White
+                            )
                         )
-                    )
+                    }
+
                     Spacer(modifier = Modifier.height(height = 24.dp))
                     Text(
                         stringResource(R.string.homeInfo), style = TextStyle(
@@ -101,7 +107,7 @@ fun HeaderHomeWorkspace(onSubscribe: () -> Unit) {
                         )
                     )
                 }
-                Column(horizontalAlignment = Alignment.End) {
+                /*Column(horizontalAlignment = Alignment.End) {
                     Box(
                         modifier = Modifier
                             .clip(RoundedCornerShape(size = 11.dp))
@@ -134,7 +140,7 @@ fun HeaderHomeWorkspace(onSubscribe: () -> Unit) {
                             )
                         )
                     }
-                }
+                }*/
             }
         }
     }

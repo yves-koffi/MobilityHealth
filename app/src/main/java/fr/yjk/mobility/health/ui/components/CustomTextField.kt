@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -28,11 +30,13 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun CustomTextField(
     value: String,
+    error: String? = null,
     onValueChange: (String) -> Unit,
     placeholder: String,
     label: String,
     modifier: Modifier = Modifier.fillMaxWidth(),
-    keyboardType: KeyboardType = KeyboardType.Text,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
 ) {
@@ -48,19 +52,15 @@ fun CustomTextField(
 
         )
         TextField(
+            keyboardActions = keyboardActions,
             leadingIcon = leadingIcon,
             trailingIcon = trailingIcon,
-            textStyle = TextStyle(
-                fontSize = 14.sp,
-                lineHeight = 24.sp,
-                fontWeight = FontWeight.W400,
-                fontFamily = FontFamily.Default,
-            ),
+            isError = error != null,
             value = value,
             onValueChange = onValueChange,
             placeholder = { Text(placeholder) },
             modifier = modifier,
-            keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+            keyboardOptions = keyboardOptions,
             shape = RoundedCornerShape(size = 12.dp),
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
@@ -70,10 +70,24 @@ fun CustomTextField(
                 ),
                 unfocusedLeadingIconColor = TextFieldDefaults.colors().unfocusedLeadingIconColor.copy(
                     alpha = 0.8f
-                )
+                ),
+                errorIndicatorColor = Color.Transparent
             ),
         )
+        if (error != null) {
+            ErrorLabel(error = error)
+        }
     }
+}
+
+@Composable
+fun ErrorLabel(error: String? = null) {
+    Text(
+        text = error ?: "",
+        color = MaterialTheme.colorScheme.error,
+        style = MaterialTheme.typography.bodySmall,
+        modifier = Modifier.padding(start = 16.dp)
+    )
 }
 
 @Preview(showBackground = true)

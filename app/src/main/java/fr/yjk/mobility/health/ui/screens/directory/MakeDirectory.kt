@@ -42,6 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fr.yjk.mobility.health.R
+import fr.yjk.mobility.health.localProvider.LocalPreferences
 import fr.yjk.mobility.health.ui.components.CustomButton
 import fr.yjk.mobility.health.ui.screens.directory.partial.MakeDirectoryFirstStep
 import fr.yjk.mobility.health.ui.screens.directory.partial.MakeDirectoryLastStep
@@ -57,7 +58,7 @@ fun MakeDirectory(onSubscribe:()->Unit) {
     val pagerState = rememberPagerState(pageCount = {
         2
     })
-
+    val localPreferences = LocalPreferences.current
 
     BackHandler {
         if (pagerState.currentPage == 1) {

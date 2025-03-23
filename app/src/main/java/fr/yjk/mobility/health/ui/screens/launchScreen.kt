@@ -20,13 +20,7 @@ import fr.yjk.mobility.health.ui.theme.MobilityHealthTheme
 import kotlinx.coroutines.delay
 
 @Composable
-fun LaunchScreen(onNext:()->Unit) {
-
-    LaunchedEffect(Unit) {
-        delay(1000)
-        onNext()
-    }
-
+fun LaunchScreen() {
 
     Scaffold { innerPadding ->
         Column(
@@ -51,8 +45,6 @@ fun LaunchScreen(onNext:()->Unit) {
 @Composable
 private fun LaunchScreenPreview() {
     MobilityHealthTheme {
-        LaunchScreen(){
-
-        }
+        LaunchScreen()
     }
 }

@@ -22,17 +22,16 @@ class PreferenceRepository @Inject constructor(private val dataStore: DataStore<
             }
         }
         .map { preferences ->
-            preferences[TAG_TECH_KEY] ?: ""
+            preferences[AUTH] ?: ""
         }
 
-
     private companion object {
-        val TAG_TECH_KEY = stringPreferencesKey("tag_tech")
+        val AUTH = stringPreferencesKey("auth")
     }
 
-    suspend fun updateTagTechPreference(auth: String) {
+    suspend fun saveAuthPreference(auth: String) {
         dataStore.edit { preferences ->
-            preferences[TAG_TECH_KEY] = auth
+            preferences[AUTH] = auth
         }
     }
 }

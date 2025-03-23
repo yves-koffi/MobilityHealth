@@ -33,3 +33,22 @@ Mobility Health est une application Android conçue pour améliorer la santé et
 Le fichier `gradle/wrapper/gradle-wrapper.properties` spécifie la version de Gradle utilisée par le projet :
 ```properties
 distributionUrl=https\://services.gradle.org/distributions/gradle-8.10.2-bin.zip
+#kt5zr1.ftp.infomaniak.com
+#9O4_iwkQaN6
+#kt5zr1_nkyemu
+
+kt5zr1.ftp.infomaniak.com   21
+kt5zr1_nkyemu 
+/sites/wikea.yj2k.com
+http://kt5zr1.ftp.infomaniak.com
+
+C:\Users\YJK\Desktop\WorkStation\Wiikea
+/
+
+C:/Users/YJK/Desktop/WorkStation/Wiikea/.idea
+C:/Users/YJK/Desktop/WorkStation/Wiikea/vendor
+C:/Users/YJK/Desktop/WorkStation/Wiikea/vite.config.js
+C:/Users/YJK/Desktop/WorkStation/Wiikea/README.md
+C:/Users/YJK/Desktop/WorkStation/Wiikea/phpunit.xml
+C:/Users/YJK/Desktop/WorkStation/Wiikea/package.json
+C:/Users/YJK/Desktop/WorkStation/Wiikea/composer.lock

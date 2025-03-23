@@ -26,12 +26,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fr.yjk.mobility.health.R
 import fr.yjk.mobility.health.fake.Country
+import fr.yjk.mobility.health.network.request.CustomerRequest
 import fr.yjk.mobility.health.ui.components.CustomTextField
 import fr.yjk.mobility.health.ui.components.SelectField
 import fr.yjk.mobility.health.ui.theme.MobilityHealthTheme
 
 @Composable
-fun RegisterFirstStep() {
+fun RegisterFirstStep(customer: CustomerRequest,onChange: (customerRequest:CustomerRequest) -> Unit) {
     val context= LocalContext.current
     val countries = Country.items
     val nationalityList = Country.NationalityItems
@@ -39,11 +40,13 @@ fun RegisterFirstStep() {
 
         SelectField(
             values = countries,
-            value = countries.first(),
+            value = countries.firstOrNull { it.key == customer.countryOfResidenceId },
             placeholder = stringResource(R.string.cc_r_hint),
             label = stringResource(R.string.nationality_hint),
             heightFraction = 0.7f,
-            onChange = {},
+            onChange = {
+                onChange(customer.copy(countryOfResidenceId = it.key))
+            },
             key = { it.key },
             modelValue = { v ->
                 Row(
@@ -101,11 +104,13 @@ fun RegisterFirstStep() {
 
         SelectField(
             values = nationalityList,
-            value = nationalityList.last(),
+            value = nationalityList.firstOrNull { it.key == customer.nationalityId },
             placeholder = stringResource(R.string.entrez_votre_nationalit),
             label = stringResource(R.string.nationality_label),
             heightFraction = 0.6f,
-            onChange = {},
+            onChange = {
+                onChange(customer.copy(nationalityId = it.key))
+            },
             key = {  it.key },
             modelValue = { v ->
                 Row(
@@ -162,8 +167,10 @@ fun RegisterFirstStep() {
         }
 
         CustomTextField(
-            value = "",
-            onValueChange = { },
+            value = customer.lastname ?:"",
+            onValueChange = {
+                onChange(customer.copy(lastname = it))
+            },
             label = stringResource(R.string.name_label),
             placeholder = stringResource(R.string.name_hint),
             leadingIcon = {
@@ -173,8 +180,11 @@ fun RegisterFirstStep() {
                     modifier = Modifier.size(size = 22.dp)
                 )
             })
-        CustomTextField(value = "",
-            onValueChange = { },
+        CustomTextField(
+            value = customer.firstname ?:"",
+            onValueChange = {
+                onChange(customer.copy(firstname = it))
+            },
             label = stringResource(R.string.first_name_label),
             placeholder = stringResource(R.string.first_nam_hint),
             leadingIcon = {
@@ -191,6 +201,6 @@ fun RegisterFirstStep() {
 @Composable
 private fun RegisterFirstStepPreview() {
     MobilityHealthTheme {
-        RegisterFirstStep()
+        //RegisterFirstStep()
     }
 }
